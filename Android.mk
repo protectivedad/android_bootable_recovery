@@ -628,9 +628,7 @@ LOCAL_CLANG := true
 LOCAL_MODULE := libverifier
 LOCAL_MODULE_TAGS := tests
 LOCAL_SRC_FILES := \
-    asn1_decoder.cpp \
-    verifier.cpp \
-    ui.cpp
+    asn1_decoder.cpp
 LOCAL_STATIC_LIBRARIES := libcrypto_static
 include $(BUILD_STATIC_LIBRARY)
 
@@ -638,10 +636,7 @@ commands_recovery_local_path := $(LOCAL_PATH)
 include $(LOCAL_PATH)/tests/Android.mk \
     $(LOCAL_PATH)/tools/Android.mk \
     $(LOCAL_PATH)/edify/Android.mk \
-    $(LOCAL_PATH)/otafault/Android.mk \
     $(LOCAL_PATH)/bootloader_message/Android.mk \
-    $(LOCAL_PATH)/updater/Android.mk \
-    $(LOCAL_PATH)/update_verifier/Android.mk \
     $(LOCAL_PATH)/applypatch/Android.mk
 
 ifeq ($(wildcard system/core/uncrypt/Android.mk),)

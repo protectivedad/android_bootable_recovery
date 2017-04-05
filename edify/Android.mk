@@ -3,9 +3,13 @@
 LOCAL_PATH := $(call my-dir)
 
 edify_src_files := \
-	lexer.ll \
-	parser.yy \
-	expr.cpp
+	lexer.l \
+	parser.y \
+	expr.c
+
+# "-x c" forces the lex/yacc files to be compiled as c;
+# the build system otherwise forces them to be c++.
+edify_cflags := -x c
 
 #
 # Build the host-side command line tool
@@ -14,16 +18,12 @@ include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
 		$(edify_src_files) \
-		main.cpp
+		main.c
 
-LOCAL_CPPFLAGS := -g -O0
+LOCAL_CFLAGS := $(edify_cflags) -g -O0
 LOCAL_MODULE := edify
 LOCAL_YACCFLAGS := -v
-LOCAL_CPPFLAGS += -Wno-unused-parameter
-LOCAL_CPPFLAGS += -Wno-deprecated-register
-LOCAL_CLANG := true
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/..
-LOCAL_STATIC_LIBRARIES += libbase
+LOCAL_CFLAGS += -Wno-unused-parameter
 
 include $(BUILD_HOST_EXECUTABLE)
 
@@ -34,11 +34,8 @@ include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := $(edify_src_files)
 
-LOCAL_CPPFLAGS := -Wno-unused-parameter
-LOCAL_CPPFLAGS += -Wno-deprecated-register
+LOCAL_CFLAGS := $(edify_cflags)
+LOCAL_CFLAGS += -Wno-unused-parameter
 LOCAL_MODULE := libedify
-LOCAL_CLANG := true
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/..
-LOCAL_STATIC_LIBRARIES += libbase
 
 include $(BUILD_STATIC_LIBRARY)
